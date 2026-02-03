@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useFirebaseAuth } from '@/contexts/FirebaseAuthContext';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { PREMIUM_FEATURES, type PremiumFeature } from '@/lib/subscription/plans';
 
@@ -23,6 +23,12 @@ export const useSubscription = () => {
 
   useEffect(() => {
     if (!user) {
+      setSubscription({
+        plan: 'free',
+        status: 'active',
+        expiresAt: null,
+        features: []
+      });
       setLoading(false);
       return;
     }
@@ -30,16 +36,37 @@ export const useSubscription = () => {
     const unsubscribe = onSnapshot(
       doc(db, 'subscriptions', user.uid),
       (doc) => {
-        if (doc.exists()) {
-          const data = doc.data();
-          setSubscription({
-            plan: data.plan || 'free',
-            status: data.status || 'active',
-            expiresAt: data.expiresAt?.toDate() || null,
-            features: data.features || []
-          });
-        } else {
-          // Create default free subscription
+        try {
+          if (doc.exists()) {
+            const data = doc.data();
+            setSubscription({
+              plan: data.plan || 'free',
+              status: data.status || 'active',
+              expiresAt: data.expiresAt?.toDate() || null,
+              features: data.features || []
+            });
+          } else {
+            // Create default free subscription
+            const defaultSubscription = {
+              plan: 'free',
+              status: 'active',
+              expiresAt: null,
+              features: []
+            };
+            setSubscription(defaultSubscription);
+            
+            // Create the document in Firestore
+            setDoc(doc(db, 'subscriptions', user.uid), {
+              ...defaultSubscription,
+              userId: user.uid,
+              createdAt: new Date(),
+              updatedAt: new Date()
+            }).catch(error => {
+              console.error('Error creating subscription document:', error);
+            });
+          }
+        } catch (error) {
+          console.error('Error processing subscription data:', error);
           setSubscription({
             plan: 'free',
             status: 'active',
@@ -51,6 +78,12 @@ export const useSubscription = () => {
       },
       (error) => {
         console.error('Error fetching subscription:', error);
+        setSubscription({
+          plan: 'free',
+          status: 'active',
+          expiresAt: null,
+          features: []
+        });
         setLoading(false);
       }
     );
@@ -59,23 +92,33 @@ export const useSubscription = () => {
   }, [user]);
 
   const hasFeature = (feature: PremiumFeature): boolean => {
-    if (subscription.status !== 'active') return false;
-    if (subscription.plan === 'free') return false;
-    
-    // Check if subscription is expired
-    if (subscription.expiresAt && subscription.expiresAt < new Date()) {
+    try {
+      if (subscription.status !== 'active') return false;
+      if (subscription.plan === 'free') return false;
+      
+      // Check if subscription is expired
+      if (subscription.expiresAt && subscription.expiresAt < new Date()) {
+        return false;
+      }
+
+      return subscription.features.includes(feature);
+    } catch (error) {
+      console.error('Error checking feature access:', error);
       return false;
     }
-
-    return subscription.features.includes(feature);
   };
 
   const isPremium = (): boolean => {
-    return subscription.plan !== 'free' && subscription.status === 'active';
+    try {
+      return subscription.plan !== 'free' && subscription.status === 'active';
+    } catch (error) {
+      console.error('Error checking premium status:', error);
+      return false;
+    }
   };
 
   const upgradeSubscription = async (planId: string) => {
-    if (!user) return;
+    if (!user) return false;
 
     try {
       const expiresAt = new Date();

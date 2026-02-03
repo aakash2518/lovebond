@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => ({
     // Mobile optimization
     target: 'es2015',
     minify: 'terser',
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -26,10 +27,16 @@ export default defineConfig(({ mode }) => ({
           firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
         }
       }
-    }
+    },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000
   },
   // PWA and mobile optimizations
   define: {
-    __MOBILE_BUILD__: mode === 'production'
+    __MOBILE_BUILD__: mode === 'production',
+    global: 'globalThis'
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'firebase/app', 'firebase/auth', 'firebase/firestore']
   }
 }));

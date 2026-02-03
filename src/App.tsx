@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { FirebaseAuthProvider, useFirebaseAuth } from "@/contexts/FirebaseAuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { useMobile } from "@/hooks/useMobile";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import SplashScreen from "@/components/SplashScreen";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Index from "./pages/Index";
@@ -114,16 +115,18 @@ const AppContent = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <FirebaseAuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <AppContent />
-        <CallInterface />
-      </TooltipProvider>
-    </FirebaseAuthProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <FirebaseAuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <AppContent />
+          <CallInterface />
+        </TooltipProvider>
+      </FirebaseAuthProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

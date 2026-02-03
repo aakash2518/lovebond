@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveBond App Icon Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .icon-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .icon-size {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+        .icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff006e, #8338ec);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(255, 0, 110, 0.3);
+        }
+        .icon::before {
+            content: '💕';
+            font-size: 40px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .icon-label {
+            font-weight: bold;
+            color: #495057;
+            font-size: 14px;
+        }
+        .download-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #ff006e, #8338ec);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .size-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+        .size-icon {
+            background: linear-gradient(135deg, #ff006e, #8338ec);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 12px rgba(255, 0, 110, 0.2);
+        }
+        .size-icon::before {
+            content: '💕';
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 LoveBond App Icon Generator</h1>
+        
+        <div class="icon-preview">
+            <div class="icon-size">
+                <div class="icon"></div>
+                <div class="icon-label">Main App Icon</div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📱 Required Icon Sizes for Android</h3>
+            <p>Create these icon sizes and place them in the specified directories:</p>
+        </div>
+
+        <div class="size-grid">
+            <div class="size-item">
+                <div class="size-icon" style="width: 48px; height: 48px;">
+                    <span style="font-size: 20px;">💕</span>
+                </div>
+                <strong>48x48</strong><br>
+                <small>mipmap-mdpi/</small>
+            </div>
+            <div class="size-item">
+                <div class="size-icon" style="width: 72px; height: 72px;">
+                    <span style="font-size: 30px;">💕</span>
+                </div>
+                <strong>72x72</strong><br>
+                <small>mipmap-hdpi/</small>
+            </div>
+            <div class="size-item">
+                <div class="size-icon" style="width: 96px; height: 96px;">
+                    <span style="font-size: 40px;">💕</span>
+                </div>
+                <strong>96x96</strong><br>
+                <small>mipmap-xhdpi/</small>
+            </div>
+            <div class="size-item">
+                <div class="size-icon" style="width: 144px; height: 144px;">
+                    <span style="font-size: 60px;">💕</span>
+                </div>
+                <strong>144x144</strong><br>
+                <small>mipmap-xxhdpi/</small>
+            </div>
+            <div class="size-item">
+                <div class="size-icon" style="width: 192px; height: 192px;">
+                    <span style="font-size: 80px;">💕</span>
+                </div>
+                <strong>192x192</strong><br>
+                <small>mipmap-xxxhdpi/</small>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h3>🔧 How to Create Icons:</h3>
+            <ol>
+                <li><strong>Design Tool:</strong> Use Canva, Figma, or Photoshop</li>
+                <li><strong>Base Size:</strong> Create a 1024x1024 master icon</li>
+                <li><strong>Design Elements:</strong>
+                    <ul>
+                        <li>Background: Gradient from #ff006e to #8338ec</li>
+                        <li>Icon: Heart emoji 💕 or custom heart design</li>
+                        <li>Border radius: 20% for rounded corners</li>
+                        <li>Shadow: Subtle drop shadow</li>
+                    </ul>
+                </li>
+                <li><strong>Export:</strong> Resize to each required size</li>
+                <li><strong>Format:</strong> PNG with transparency</li>
+            </ol>
+
+            <button class="download-btn" onclick="generateIcons()">🎨 Generate Icon Template</button>
+            <button class="download-btn" onclick="openCanva()">🎯 Open Canva</button>
+            <button class="download-btn" onclick="openIconGenerator()">🔧 Online Icon Generator</button>
+        </div>
+
+        <div class="instructions">
+            <h3>📂 File Placement:</h3>
+            <p>Place the generated icons in these directories:</p>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto;">
+android/app/src/main/res/
+├── mipmap-mdpi/ic_launcher.png (48x48)
+├── mipmap-hdpi/ic_launcher.png (72x72)
+├── mipmap-xhdpi/ic_launcher.png (96x96)
+├── mipmap-xxhdpi/ic_launcher.png (144x144)
+└── mipmap-xxxhdpi/ic_launcher.png (192x192)
+            </pre>
+        </div>
+    </div>
+
+    <script>
+        function generateIcons() {
+            // Create a canvas to generate icon template
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1024;
+            canvas.height = 1024;
+
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 1024, 1024);
+            gradient.addColorStop(0, '#ff006e');
+            gradient.addColorStop(1, '#8338ec');
+            
+            ctx.fillStyle = gradient;
+            ctx.roundRect(0, 0, 1024, 1024, 200);
+            ctx.fill();
+
+            // Add heart emoji
+            ctx.font = '400px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = 'white';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 20;
+            ctx.shadowOffsetY = 10;
+            ctx.fillText('💕', 512, 512);
+
+            // Download the image
+            const link = document.createElement('a');
+            link.download = 'lovebond-icon-1024x1024.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function openCanva() {
+            window.open('https://www.canva.com/create/app-icons/', '_blank');
+        }
+
+        function openIconGenerator() {
+            window.open('https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html', '_blank');
+        }
+
+        // Add roundRect method for older browsers
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+                this.beginPath();
+                this.moveTo(x + radius, y);
+                this.lineTo(x + width - radius, y);
+                this.quadraticCurveTo(x + width, y, x + width, y + radius);
+                this.lineTo(x + width, y + height - radius);
+                this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                this.lineTo(x + radius, y + height);
+                this.quadraticCurveTo(x, y + height, x, y + height - radius);
+                this.lineTo(x, y + radius);
+                this.quadraticCurveTo(x, y, x + radius, y);
+                this.closePath();
+            };
+        }
+    </script>
+</body>
+</html>

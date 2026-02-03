@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hug Feature - LoveBond</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .test-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .test-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .success {
+            background: rgba(46, 204, 113, 0.3);
+            border: 1px solid #2ecc71;
+        }
+        .error {
+            background: rgba(231, 76, 60, 0.3);
+            border: 1px solid #e74c3c;
+        }
+        .info {
+            background: rgba(52, 152, 219, 0.3);
+            border: 1px solid #3498db;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+        }
+        .feature-list li::before {
+            content: "🤗 ";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤗 Send a Hug Feature Test</h1>
+        
+        <div class="test-section">
+            <h2>Feature Overview</h2>
+            <p>The Send a Hug feature allows partners to send virtual hugs to each other with:</p>
+            <ul class="feature-list">
+                <li>Real-time Firebase notifications</li>
+                <li>Haptic feedback (vibration) on mobile devices</li>
+                <li>Beautiful floating heart animations</li>
+                <li>Browser notifications with custom messages</li>
+                <li>Toast notifications with action buttons</li>
+                <li>Daily hug counters (sent/received)</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>Notification Tests</h2>
+            <div id="permission-status" class="status info">
+                Checking notification permission...
+            </div>
+            
+            <button class="test-button" onclick="requestNotificationPermission()">
+                Request Notification Permission
+            </button>
+            
+            <button class="test-button" onclick="testBrowserNotification()">
+                Test Browser Notification
+            </button>
+            
+            <button class="test-button" onclick="testVibration()">
+                Test Vibration
+            </button>
+        </div>
+
+        <div class="test-section">
+            <h2>Hug Simulation</h2>
+            <p>Simulate receiving a hug notification:</p>
+            
+            <button class="test-button" onclick="simulateHugReceived()">
+                Simulate Hug Received
+            </button>
+            
+            <button class="test-button" onclick="simulateHugSent()">
+                Simulate Hug Sent
+            </button>
+        </div>
+
+        <div class="test-section">
+            <h2>Technical Implementation</h2>
+            <div id="tech-status" class="status info">
+                <strong>Components Implemented:</strong><br>
+                ✅ useHugs hook with real-time subscriptions<br>
+                ✅ HugButton component with animations<br>
+                ✅ Firebase Firestore hugs collection<br>
+                ✅ Notification system with permissions<br>
+                ✅ Haptic feedback integration<br>
+                ✅ Toast notifications with actions<br>
+                ✅ Daily hug counters
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>How to Test in App</h2>
+            <ol style="text-align: left;">
+                <li>Build and run the app: <code>npm run build:mobile</code></li>
+                <li>Open on two devices with different user accounts</li>
+                <li>Connect both users as a couple</li>
+                <li>Tap the "Send a Hug" button on one device</li>
+                <li>The other device should receive:
+                    <ul>
+                        <li>Haptic vibration</li>
+                        <li>Toast notification</li>
+                        <li>Browser notification (if permitted)</li>
+                        <li>Updated hug counter</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Check initial notification permission
+        function updatePermissionStatus() {
+            const statusEl = document.getElementById('permission-status');
+            if ('Notification' in window) {
+                const permission = Notification.permission;
+                statusEl.className = `status ${permission === 'granted' ? 'success' : permission === 'denied' ? 'error' : 'info'}`;
+                statusEl.textContent = `Notification permission: ${permission}`;
+            } else {
+                statusEl.className = 'status error';
+                statusEl.textContent = 'Notifications not supported in this browser';
+            }
+        }
+
+        // Request notification permission
+        async function requestNotificationPermission() {
+            if ('Notification' in window) {
+                const permission = await Notification.requestPermission();
+                updatePermissionStatus();
+                
+                if (permission === 'granted') {
+                    alert('✅ Notification permission granted!');
+                } else {
+                    alert('❌ Notification permission denied');
+                }
+            } else {
+                alert('❌ Notifications not supported');
+            }
+        }
+
+        // Test browser notification
+        function testBrowserNotification() {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const notification = new Notification('🤗 Test Hug from Partner', {
+                    body: 'This is a test hug notification! 💕',
+                    icon: '/favicon.ico',
+                    tag: 'test-hug'
+                });
+                
+                // Trigger vibration
+                if ('vibrate' in navigator) {
+                    navigator.vibrate([200, 100, 200]);
+                }
+                
+                setTimeout(() => notification.close(), 5000);
+                alert('✅ Test notification sent!');
+            } else {
+                alert('❌ Please grant notification permission first');
+            }
+        }
+
+        // Test vibration
+        function testVibration() {
+            if ('vibrate' in navigator) {
+                navigator.vibrate([300, 100, 300, 100, 300]);
+                alert('✅ Vibration test completed!');
+            } else {
+                alert('❌ Vibration not supported on this device');
+            }
+        }
+
+        // Simulate hug received
+        function simulateHugReceived() {
+            // Show toast-like notification
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.innerHTML = `
+                <div style="font-weight: bold;">🤗 Partner sent you a hug!</div>
+                <div style="font-size: 14px; opacity: 0.9;">You received a warm virtual hug 💕</div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Vibrate
+            if ('vibrate' in navigator) {
+                navigator.vibrate([200, 100, 200]);
+            }
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+            
+            // Browser notification
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('🤗 Hug from Partner', {
+                    body: 'You received a warm virtual hug 💕',
+                    icon: '/favicon.ico'
+                });
+            }
+        }
+
+        // Simulate hug sent
+        function simulateHugSent() {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, #2ecc71, #27ae60);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.innerHTML = `
+                <div style="font-weight: bold;">Hug sent! 🤗💕</div>
+                <div style="font-size: 14px; opacity: 0.9;">Partner will feel your warm hug!</div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Light vibration for sender
+            if ('vibrate' in navigator) {
+                navigator.vibrate([100, 50, 100]);
+            }
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        updatePermissionStatus();
+    </script>
+</body>
+</html>

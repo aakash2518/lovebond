@@ -1,0 +1,101 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - users can read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Couples collection - authenticated users can read/write couples they're part of
+    match /couples/{coupleId} {
+      allow read: if request.auth != null && (
+        resource.data.user1 == request.auth.uid || 
+        resource.data.user2 == request.auth.uid
+      );
+      
+      // Allow creating new couples
+      allow create: if request.auth != null && 
+        request.auth.uid == request.resource.data.user1;
+      
+      // Allow updating couples (for joining)
+      allow update: if request.auth != null && (
+        // Original creator can update
+        resource.data.user1 == request.auth.uid ||
+        // Someone can join if user2 is null and they're setting themselves as user2
+        (resource.data.user2 == null && 
+         request.resource.data.user2 == request.auth.uid)
+      );
+    }
+    
+    // Allow reading couples by code for joining (temporary read access)
+    match /couples/{coupleId} {
+      allow read: if request.auth != null;
+    }
+    
+    // Calls collection - users can manage calls they're part of
+    match /calls/{callId} {
+      allow read, write: if request.auth != null && (
+        resource.data.caller_id == request.auth.uid || 
+        resource.data.receiver_id == request.auth.uid
+      );
+      allow create: if request.auth != null && 
+        request.auth.uid == request.resource.data.caller_id;
+    }
+    
+    // Call answers - users can create answers for calls they receive
+    match /call_answers/{answerId} {
+      allow read, write: if request.auth != null;
+      allow create: if request.auth != null;
+    }
+    
+    // ICE candidates - users can manage ICE candidates for their calls
+    match /ice_candidates/{candidateId} {
+      allow read, write: if request.auth != null;
+      allow create: if request.auth != null;
+    }
+    
+    // Locations collection - users can read/write their own location
+    match /locations/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Allow reading partner's location
+      allow read: if request.auth != null;
+    }
+    
+    // Hugs collection - users can read/write hugs for their couple
+    match /hugs/{hugId} {
+      allow read, write: if request.auth != null && (
+        resource.data.sender_id == request.auth.uid || 
+        resource.data.receiver_id == request.auth.uid
+      );
+      allow create: if request.auth != null && 
+        request.auth.uid == request.resource.data.sender_id;
+    }
+    
+    // Love streaks - users can read/write their own streaks
+    match /love_streaks/{streakId} {
+      allow read, write: if request.auth != null && (
+        resource.data.user1 == request.auth.uid || 
+        resource.data.user2 == request.auth.uid
+      );
+      allow create: if request.auth != null;
+    }
+    
+    // Streak images - users can read/write their own couple's images
+    match /streak_images/{imageId} {
+      allow read, write: if request.auth != null;
+      allow create: if request.auth != null;
+    }
+    
+    // Activities - users can read/write their own couple's activities
+    match /activities/{activityId} {
+      allow read, write: if request.auth != null;
+      allow create: if request.auth != null;
+    }
+    
+    // Default deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

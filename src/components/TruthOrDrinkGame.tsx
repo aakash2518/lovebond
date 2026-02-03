@@ -3,6 +3,8 @@ import { Wine, ArrowLeft, Shuffle, Smile, Flame, ClipboardList, Droplets, Heart 
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useProfile } from "@/hooks/useProfile";
+import { PremiumFeatureGate } from "./PremiumFeatureGate";
+import { PREMIUM_FEATURES } from "@/lib/subscription/plans";
 
 interface TruthOrDrinkGameProps {
   onBack: () => void;
@@ -44,6 +46,45 @@ const challenges = {
 };
 
 const TruthOrDrinkGame = ({ onBack }: TruthOrDrinkGameProps) => {
+  return (
+    <PremiumFeatureGate 
+      feature={PREMIUM_FEATURES.TRUTH_OR_DRINK}
+      title="🍻 Truth or Drink Game"
+      description="Play fun truth or drink questions designed for couples to know each other better!"
+      fallback={
+        <div className="h-full flex flex-col">
+          <div className="flex items-center gap-3 px-4 pt-4 pb-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onBack}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
+                <Wine className="w-5 h-5 text-primary" />
+                Truth or Drink
+              </h1>
+            </div>
+          </div>
+          <div className="flex-1 p-4">
+            <PremiumFeatureGate 
+              feature={PREMIUM_FEATURES.TRUTH_OR_DRINK}
+              title="🍻 Truth or Drink Game"
+              description="Play fun truth or drink questions designed for couples to know each other better!"
+            />
+          </div>
+        </div>
+      }
+    >
+      <TruthOrDrinkGameContent onBack={onBack} />
+    </PremiumFeatureGate>
+  );
+};
+
+const TruthOrDrinkGameContent = ({ onBack }: TruthOrDrinkGameProps) => {
   const { data: profile } = useProfile();
   const [phase, setPhase] = useState<GamePhase>('rules');
   const [category, setCategory] = useState<Category | null>(null);

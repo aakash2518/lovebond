@@ -9,6 +9,7 @@ import { useFirebaseAuth } from "@/contexts/FirebaseAuthContext";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { useLoveStreak } from "@/hooks/useLoveStreak";
 import { useCoupleData } from "@/hooks/useCouple";
+import { SubscriptionStatus } from "./SubscriptionStatus";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/lib/firebase";
 import { format } from "date-fns";
@@ -209,6 +210,11 @@ const ProfileView = () => {
             </p>
           </div>
         )}
+
+        {/* Subscription Status */}
+        <div className="mb-4">
+          <SubscriptionStatus />
+        </div>
 
         {/* Sign out button */}
         <Button

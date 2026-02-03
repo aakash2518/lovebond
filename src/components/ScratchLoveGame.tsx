@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Heart, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { PremiumFeatureGate } from "./PremiumFeatureGate";
+import { PREMIUM_FEATURES } from "@/lib/subscription/plans";
 
 // Import images for circles 1-50
 import position1 from "@/assets/scratch/position-1.jpg";
@@ -154,6 +156,45 @@ const getShuffledPositionImage = (circleNum: number): string => {
 const fallbackActivities = Array.from({ length: 100 }, (_, i) => `Love Position ${i + 1} 💕`);
 
 const ScratchLoveGame = ({ onBack }: ScratchLoveGameProps) => {
+  return (
+    <PremiumFeatureGate 
+      feature={PREMIUM_FEATURES.SCRATCH_LOVE_GAME}
+      title="🎮 Scratch Love Game"
+      description="Discover intimate positions and spice up your relationship with our exclusive scratch game!"
+      fallback={
+        <div className="min-h-screen bg-background">
+          <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-lg border-b border-border/50">
+            <div className="flex items-center gap-3 p-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onBack}
+                className="text-foreground"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-primary" />
+                <h1 className="text-xl font-bold text-foreground">Scratch Love Game</h1>
+              </div>
+            </div>
+          </div>
+          <div className="p-4">
+            <PremiumFeatureGate 
+              feature={PREMIUM_FEATURES.SCRATCH_LOVE_GAME}
+              title="🎮 Scratch Love Game"
+              description="Discover intimate positions and spice up your relationship with our exclusive scratch game!"
+            />
+          </div>
+        </div>
+      }
+    >
+      <ScratchLoveGameContent onBack={onBack} />
+    </PremiumFeatureGate>
+  );
+};
+
+const ScratchLoveGameContent = ({ onBack }: ScratchLoveGameProps) => {
   const [selectedCircle, setSelectedCircle] = useState<number | null>(null);
   const [revealedCircles, setRevealedCircles] = useState<Set<number>>(new Set());
   const [isScratching, setIsScratching] = useState(false);

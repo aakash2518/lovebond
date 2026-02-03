@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/FirebaseAuthContext';
+import { useFirebaseAuth } from '@/contexts/FirebaseAuthContext';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { PREMIUM_FEATURES, type PremiumFeature } from '@/lib/subscription/plans';
@@ -12,7 +12,7 @@ export interface UserSubscription {
 }
 
 export const useSubscription = () => {
-  const { user } = useAuth();
+  const { user } = useFirebaseAuth();
   const [subscription, setSubscription] = useState<UserSubscription>({
     plan: 'free',
     status: 'active',

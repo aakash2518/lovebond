@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Capacitor } from '@capacitor/core';
 
 export const useMobile = () => {
   const [isNative, setIsNative] = useState(false);
@@ -7,64 +6,58 @@ export const useMobile = () => {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   useEffect(() => {
-    setIsNative(Capacitor.isNativePlatform());
+    // For web deployment, always false
+    setIsNative(false);
+    
+    // Check if device is mobile based on screen size and user agent
+    const checkMobile = () => {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isMobileScreen = window.innerWidth <= 768;
+      return isMobileDevice || isMobileScreen;
+    };
 
-    // Only setup mobile features if on native platform
-    if (Capacitor.isNativePlatform()) {
-      setupMobileFeatures();
+    // Listen for window resize to detect virtual keyboard
+    const handleResize = () => {
+      if (checkMobile()) {
+        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        const windowHeight = window.screen.height;
+        const heightDiff = windowHeight - viewportHeight;
+        
+        if (heightDiff > 150) { // Keyboard likely open
+          setIsKeyboardOpen(true);
+          setKeyboardHeight(heightDiff);
+        } else {
+          setIsKeyboardOpen(false);
+          setKeyboardHeight(0);
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
     }
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+      }
+    };
   }, []);
 
-  const setupMobileFeatures = async () => {
-    try {
-      // Dynamic imports for mobile plugins
-      const { StatusBar } = await import('@capacitor/status-bar');
-      const { Keyboard } = await import('@capacitor/keyboard');
-      
-      // Configure status bar
-      await StatusBar.setStyle({ style: 'DARK' });
-      await StatusBar.setBackgroundColor({ color: '#0a0a1a' });
-
-      // Keyboard listeners
-      const keyboardWillShow = await Keyboard.addListener('keyboardWillShow', (info: any) => {
-        setKeyboardHeight(info.keyboardHeight);
-        setIsKeyboardOpen(true);
-      });
-
-      const keyboardWillHide = await Keyboard.addListener('keyboardWillHide', () => {
-        setKeyboardHeight(0);
-        setIsKeyboardOpen(false);
-      });
-
-      // Cleanup function
-      return () => {
-        keyboardWillShow.remove();
-        keyboardWillHide.remove();
-      };
-    } catch (error) {
-      console.log('Mobile plugins not available:', error);
-    }
-  };
-
   const hapticFeedback = async (style: 'LIGHT' | 'MEDIUM' | 'HEAVY' = 'MEDIUM') => {
-    if (Capacitor.isNativePlatform()) {
-      try {
-        const { Haptics } = await import('@capacitor/haptics');
-        await Haptics.impact({ style });
-      } catch (error) {
-        console.log('Haptics not available:', error);
-      }
+    // Use web vibration API if available
+    if ('vibrate' in navigator) {
+      const duration = style === 'LIGHT' ? 50 : style === 'MEDIUM' ? 100 : 200;
+      navigator.vibrate(duration);
     }
   };
 
   const hideKeyboard = async () => {
-    if (Capacitor.isNativePlatform()) {
-      try {
-        const { Keyboard } = await import('@capacitor/keyboard');
-        await Keyboard.hide();
-      } catch (error) {
-        console.log('Keyboard not available:', error);
-      }
+    // For web, blur active element to hide virtual keyboard
+    if (document.activeElement && 'blur' in document.activeElement) {
+      (document.activeElement as HTMLElement).blur();
     }
   };
 
@@ -74,6 +67,6 @@ export const useMobile = () => {
     isKeyboardOpen,
     hapticFeedback,
     hideKeyboard,
-    platform: Capacitor.getPlatform(),
+    platform: 'web',
   };
 };

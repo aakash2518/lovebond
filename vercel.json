@@ -2,7 +2,7 @@
   "version": 2,
   "buildCommand": "npm run build:production",
   "outputDirectory": "dist",
-  "installCommand": "npm ci --legacy-peer-deps",
+  "installCommand": "npm install",
   "framework": "vite",
   "functions": {
     "app/api/**/*.js": {

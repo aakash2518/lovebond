@@ -3,72 +3,24 @@ apply plugin: 'com.android.application'
 android {
     namespace = "com.lovebond.coupleapp"
     compileSdk = rootProject.ext.compileSdkVersion
-    
     defaultConfig {
         applicationId "com.lovebond.coupleapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        
-        // Play Store optimization
-        vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
-        
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
-        
-        // Localization support
-        resConfigs "en", "hi", "es", "fr", "de"
     }
-    
     buildTypes {
-        debug {
-            debuggable true
-            minifyEnabled false
-            shrinkResources false
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-        }
-        
         release {
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            
-            // Play Store signing configuration
-            // signingConfig signingConfigs.release // Uncomment when you have signing config
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    
-    // Play Console requirements
-    bundle {
-        language {
-            enableSplit = false
-        }
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = true
-        }
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    
-    // Lint configuration for Play Store
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-        disable 'MissingTranslation'
     }
 }
 
@@ -83,7 +35,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
-    implementation "androidx.multidex:multidex:2.0.1"
     implementation project(':capacitor-android')
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"

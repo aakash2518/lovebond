@@ -1,4 +1,4 @@
-package com.lovebond.app;
+package com.lovebond.coupleapp;
 
 import com.getcapacitor.BridgeActivity;
 

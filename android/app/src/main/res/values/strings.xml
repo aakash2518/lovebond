@@ -1,20 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">LoveBond</string>
     <string name="title_activity_main">LoveBond</string>
     <string name="package_name">com.lovebond.coupleapp</string>
     <string name="custom_url_scheme">com.lovebond.coupleapp</string>
-    
-    <!-- App description for accessibility -->
-    <string name="app_description">Couple relationship app for strengthening bonds</string>
-    
-    <!-- Permission descriptions -->
-    <string name="camera_permission_description">Take photos to share with your partner</string>
-    <string name="location_permission_description">Share your location with your partner</string>
-    <string name="notification_permission_description">Receive messages and updates from your partner</string>
-    
-    <!-- Feature descriptions -->
-    <string name="messaging_feature">Private messaging with your partner</string>
-    <string name="activities_feature">Fun relationship activities and games</string>
-    <string name="tracking_feature">Track relationship milestones and memories</string>
 </resources>

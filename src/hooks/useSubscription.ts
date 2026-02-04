@@ -136,13 +136,14 @@ export const useSubscription = () => {
         PREMIUM_FEATURES.ADVANCED_GAMES
       ];
 
-      await updateDoc(doc(db, 'subscriptions', user.uid), {
+      // Use setDoc with merge to work even if the document doesn't exist yet
+      await setDoc(doc(db, 'subscriptions', user.uid), {
         plan: planId,
         status: 'active',
         expiresAt,
         features,
         updatedAt: new Date()
-      });
+      }, { merge: true });
 
       return true;
     } catch (error) {

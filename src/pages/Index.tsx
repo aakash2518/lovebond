@@ -206,13 +206,13 @@ const Index = () => {
       </div>
 
       <main className="relative z-10 max-w-md mx-auto h-[calc(100vh-6rem)]">
-        {activeTab === "home" ? (
-          <div className="px-4 h-full overflow-y-auto">
-            {renderContent()}
-          </div>
-        ) : (
-          renderContent()
-        )}
+        <div
+          className={`h-full overflow-y-auto ${
+            activeTab === "home" ? "px-4" : ""
+          }`}
+        >
+          {renderContent()}
+        </div>
       </main>
 
       <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />

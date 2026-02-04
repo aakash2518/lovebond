@@ -66,7 +66,7 @@ npm install
 
 # Set up environment variables
 cp .env.example .env
-# Add your Firebase and Supabase credentials
+# Add your Firebase credentials (and Supabase if you use those features)
 
 # Start development server
 npm run dev
@@ -94,7 +94,7 @@ VITE_FIREBASE_API_KEY=your_firebase_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your_project_id
 VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_key
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_key
 ```
 
 ### Firebase Setup
@@ -107,6 +107,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_key
 
 - `npm run dev` - Start development server
 - `npm run build:production` - Build for production
+- `npm run typecheck` - TypeScript type-check (no emit)
 - `npm run android:release` - Build Android release
 - `npm run ios:build` - Build iOS app
 - `npm run lint` - Run ESLint

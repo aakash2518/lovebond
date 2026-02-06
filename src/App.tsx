@@ -16,7 +16,11 @@ import ResetPassword from "./pages/ResetPassword";
 import RelationshipOnboarding from "./pages/RelationshipOnboarding";
 import CoupleSetup from "./pages/CoupleSetup";
 import NotFound from "./pages/NotFound";
+import Copyright from "./pages/Copyright";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import CallInterface from "./components/CallInterface";
+import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
 
@@ -94,21 +98,27 @@ const AppContent = () => {
   }
 
   return (
-    <div className={`min-h-screen ${isNative ? 'safe-top safe-bottom' : ''}`}>
+    <div className={`min-h-screen flex flex-col ${isNative ? 'safe-top safe-bottom' : ''}`}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/relationship-onboarding" element={<RelationshipOnboarding />} />
-          <Route path="/couple-setup" element={<CoupleSetup />} />
-          <Route path="/" element={
-            <ProtectedRoute>
-              <Index />
-            </ProtectedRoute>
-          } />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div className="flex-1">
+          <Routes>
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/relationship-onboarding" element={<RelationshipOnboarding />} />
+            <Route path="/couple-setup" element={<CoupleSetup />} />
+            <Route path="/copyright" element={<Copyright />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Index />
+              </ProtectedRoute>
+            } />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+        <Footer />
       </BrowserRouter>
     </div>
   );

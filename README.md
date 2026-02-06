@@ -172,3 +172,59 @@ Built with ❤️ for couples who want to stay connected and strengthen their re
 ---
 
 **Ready to deploy and make couples happy! 🚀💕**
+
+
+## 📱 Play Store Submission
+
+### Complete Guide Available
+See **[PLAYSTORE_SUBMISSION_GUIDE.md](./PLAYSTORE_SUBMISSION_GUIDE.md)** for detailed instructions on:
+- Google Play Console setup (₹2,000 one-time fee)
+- App signing and keystore generation
+- Required documents and assets
+- Privacy policy and copyright requirements
+- Step-by-step submission process
+- Common rejection reasons and fixes
+
+### Quick Start for Play Store
+
+```bash
+# 1. Run Play Store setup
+playstore-setup.bat
+
+# 2. Generate signing key
+generate-keystore.bat
+
+# 3. Configure signing in android/app/build.gradle
+
+# 4. Build signed AAB
+npx cap open android
+# Then: Build > Generate Signed Bundle/APK > Android App Bundle
+
+# 5. Upload to Play Console
+```
+
+### Required Documents ✅
+- ✅ Privacy Policy (`privacy-policy.md`)
+- ✅ Terms of Service (`terms-of-service.md`)
+- ✅ Copyright Notice (`COPYRIGHT.md`)
+- ✅ App Icons (512x512)
+- ✅ Feature Graphics (1024x500)
+- ✅ Screenshots
+
+### Legal & Copyright
+
+**Copyright © 2026 LoveBond. All rights reserved.**
+
+See [COPYRIGHT.md](./COPYRIGHT.md) for full copyright notice and licensing terms.
+
+---
+
+## 📞 Support & Contact
+
+- **Issues**: Open an issue on GitHub
+- **Email**: [Your Email]
+- **Website**: https://lovebond.vercel.app
+
+---
+
+**🎉 Ready for Play Store submission!**

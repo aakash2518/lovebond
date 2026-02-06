@@ -1,0 +1,109 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dark gradient background -->
+    <linearGradient id="darkBg" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#1a0b2e"/>
+      <stop offset="50%" stop-color="#16082a"/>
+      <stop offset="100%" stop-color="#0f0520"/>
+    </linearGradient>
+    
+    <!-- Neon pink gradient for heart -->
+    <linearGradient id="neonPink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF10F0"/>
+      <stop offset="50%" stop-color="#FF1493"/>
+      <stop offset="100%" stop-color="#FF69B4"/>
+    </linearGradient>
+    
+    <!-- Purple gradient for circle -->
+    <radialGradient id="purpleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#5a2d6f"/>
+      <stop offset="100%" stop-color="#3d1f47"/>
+    </radialGradient>
+    
+    <!-- Strong glow for heart -->
+    <filter id="strongGlow">
+      <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Soft glow -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Dark background -->
+  <rect width="512" height="512" rx="120" fill="url(#darkBg)"/>
+  
+  <!-- Subtle stars/sparkles in background -->
+  <g opacity="0.4">
+    <circle cx="100" cy="100" r="2" fill="white"/>
+    <circle cx="412" cy="100" r="1.5" fill="white"/>
+    <circle cx="80" cy="412" r="2" fill="white"/>
+    <circle cx="432" cy="432" r="1" fill="white"/>
+    <circle cx="200" cy="80" r="1.5" fill="white"/>
+    <circle cx="350" cy="450" r="2" fill="white"/>
+    <circle cx="150" cy="300" r="1" fill="white"/>
+    <circle cx="380" cy="320" r="1.5" fill="white"/>
+  </g>
+  
+  <!-- Purple circle background for heart -->
+  <circle cx="256" cy="256" r="130" fill="url(#purpleGlow)" opacity="0.6"/>
+  
+  <!-- Outer glow ring -->
+  <circle cx="256" cy="256" r="130" fill="none" stroke="url(#neonPink)" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Main glowing neon heart -->
+  <g filter="url(#strongGlow)">
+    <path d="M256 340
+             C 256 340, 170 270, 170 200
+             C 170 170, 188 145, 213 138
+             C 238 131, 258 143, 256 168
+             C 254 143, 274 131, 299 138
+             C 324 145, 342 170, 342 200
+             C 342 270, 256 340, 256 340 Z" 
+          fill="url(#neonPink)"/>
+  </g>
+  
+  <!-- Inner heart for depth -->
+  <path d="M256 325
+           C 256 325, 185 265, 185 210
+           C 185 185, 198 165, 218 160
+           C 238 155, 253 165, 256 183
+           C 259 165, 274 155, 294 160
+           C 314 165, 327 185, 327 210
+           C 327 265, 256 325, 256 325 Z" 
+        fill="url(#neonPink)" 
+        opacity="0.5"/>
+  
+  <!-- Highlight on heart -->
+  <ellipse cx="230" cy="200" rx="20" ry="30" 
+           fill="white" 
+           opacity="0.3"
+           transform="rotate(-20 230 200)"/>
+  
+  <!-- Small sparkles around heart -->
+  <g opacity="0.9" filter="url(#softGlow)">
+    <circle cx="200" cy="190" r="3" fill="#FF10F0"/>
+    <circle cx="312" cy="190" r="3" fill="#FF10F0"/>
+    <circle cx="220" cy="250" r="2.5" fill="#FF69B4"/>
+    <circle cx="292" cy="250" r="2.5" fill="#FF69B4"/>
+    <circle cx="256" cy="170" r="2" fill="#FF1493"/>
+  </g>
+  
+  <!-- Decorative particles -->
+  <g opacity="0.6">
+    <circle cx="180" cy="230" r="1.5" fill="#FF69B4"/>
+    <circle cx="332" cy="230" r="1.5" fill="#FF69B4"/>
+    <circle cx="210" cy="300" r="1" fill="#FF10F0"/>
+    <circle cx="302" cy="300" r="1" fill="#FF10F0"/>
+  </g>
+</svg>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveBond Logo Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #C44569;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .logo-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .logo-item h3 {
+            color: #C44569;
+            margin: 10px 0;
+        }
+        button {
+            background: linear-gradient(135deg, #FF6B9D 0%, #C44569 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        .download-all {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💕 LoveBond Logo Generator</h1>
+        <p class="subtitle">Generate app logos in all required sizes for Play Store</p>
+        
+        <div class="info">
+            <strong>📱 Play Store Requirements:</strong>
+            <ul>
+                <li>512x512 - High-res icon (required)</li>
+                <li>192x192 - Standard icon</li>
+                <li>144x144 - Tablet icon</li>
+                <li>96x96 - Launcher icon</li>
+                <li>72x72 - Small icon</li>
+                <li>48x48 - Notification icon</li>
+            </ul>
+        </div>
+
+        <div class="logo-grid" id="logoGrid"></div>
+
+        <div class="download-all">
+            <button onclick="downloadAll()" style="font-size: 18px; padding: 15px 40px;">
+                📥 Download All Logos
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const sizes = [
+            { size: 512, name: 'High-Res Icon' },
+            { size: 192, name: 'Standard Icon' },
+            { size: 144, name: 'Tablet Icon' },
+            { size: 96, name: 'Launcher Icon' },
+            { size: 72, name: 'Small Icon' },
+            { size: 48, name: 'Notification Icon' }
+        ];
+
+        function drawLogo(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            const scale = size / 512;
+            
+            ctx.clearRect(0, 0, size, size);
+            
+            // Background gradient
+            const bgGradient = ctx.createLinearGradient(0, 0, size, size);
+            bgGradient.addColorStop(0, '#FF6B9D');
+            bgGradient.addColorStop(0.5, '#C44569');
+            bgGradient.addColorStop(1, '#8B2E5F');
+            
+            ctx.fillStyle = bgGradient;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Main Heart
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.beginPath();
+            const heartX = size * 0.5;
+            const heartY = size * 0.35;
+            const heartSize = size * 0.25;
+            
+            ctx.moveTo(heartX, heartY + heartSize * 0.3);
+            ctx.bezierCurveTo(
+                heartX, heartY,
+                heartX - heartSize * 0.5, heartY - heartSize * 0.3,
+                heartX - heartSize * 0.5, heartY + heartSize * 0.1
+            );
+            ctx.bezierCurveTo(
+                heartX - heartSize * 0.5, heartY + heartSize * 0.5,
+                heartX, heartY + heartSize * 0.8,
+                heartX, heartY + heartSize * 1.2
+            );
+            ctx.bezierCurveTo(
+                heartX, heartY + heartSize * 0.8,
+                heartX + heartSize * 0.5, heartY + heartSize * 0.5,
+                heartX + heartSize * 0.5, heartY + heartSize * 0.1
+            );
+            ctx.bezierCurveTo(
+                heartX + heartSize * 0.5, heartY - heartSize * 0.3,
+                heartX, heartY,
+                heartX, heartY + heartSize * 0.3
+            );
+            ctx.fill();
+            
+            // Interlocked Rings
+            const ringY = size * 0.55;
+            const ringRadius = size * 0.1;
+            const ringWidth = size * 0.03;
+            
+            // Ring 1 (Pink)
+            const ring1Gradient = ctx.createLinearGradient(0, 0, size, size);
+            ring1Gradient.addColorStop(0, '#FF6B9D');
+            ring1Gradient.addColorStop(1, '#FF1744');
+            
+            ctx.strokeStyle = ring1Gradient;
+            ctx.lineWidth = ringWidth;
+            ctx.globalAlpha = 0.9;
+            ctx.beginPath();
+            ctx.arc(size * 0.43, ringY, ringRadius, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Ring 2 (Gold)
+            const ring2Gradient = ctx.createLinearGradient(0, 0, size, size);
+            ring2Gradient.addColorStop(0, '#FFD93D');
+            ring2Gradient.addColorStop(1, '#FFA500');
+            
+            ctx.strokeStyle = ring2Gradient;
+            ctx.beginPath();
+            ctx.arc(size * 0.57, ringY, ringRadius, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.globalAlpha = 1;
+            
+            // Small decorative hearts
+            drawSmallHeart(ctx, size * 0.35, size * 0.3, size * 0.02);
+            drawSmallHeart(ctx, size * 0.65, size * 0.3, size * 0.02);
+            
+            // Sparkles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.beginPath();
+            ctx.arc(size * 0.35, size * 0.35, size * 0.008, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(size * 0.65, size * 0.35, size * 0.008, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        function drawSmallHeart(ctx, x, y, size) {
+            ctx.fillStyle = '#FF1744';
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(x, y + size * 0.3);
+            ctx.bezierCurveTo(x, y, x - size * 0.5, y - size * 0.3, x - size * 0.5, y + size * 0.1);
+            ctx.bezierCurveTo(x - size * 0.5, y + size * 0.5, x, y + size * 0.8, x, y + size);
+            ctx.bezierCurveTo(x, y + size * 0.8, x + size * 0.5, y + size * 0.5, x + size * 0.5, y + size * 0.1);
+            ctx.bezierCurveTo(x + size * 0.5, y - size * 0.3, x, y, x, y + size * 0.3);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+
+        function createLogoItem(sizeInfo) {
+            const div = document.createElement('div');
+            div.className = 'logo-item';
+            
+            const h3 = document.createElement('h3');
+            h3.textContent = sizeInfo.name;
+            
+            const sizeLabel = document.createElement('p');
+            sizeLabel.textContent = `${sizeInfo.size}x${sizeInfo.size}px`;
+            sizeLabel.style.color = '#666';
+            sizeLabel.style.fontSize = '14px';
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = sizeInfo.size;
+            canvas.height = sizeInfo.size;
+            canvas.style.maxWidth = '100%';
+            canvas.style.height = 'auto';
+            
+            drawLogo(canvas, sizeInfo.size);
+            
+            const button = document.createElement('button');
+            button.textContent = '📥 Download';
+            button.onclick = () => downloadLogo(canvas, sizeInfo.size);
+            
+            div.appendChild(h3);
+            div.appendChild(sizeLabel);
+            div.appendChild(canvas);
+            div.appendChild(button);
+            
+            return div;
+        }
+
+        function downloadLogo(canvas, size) {
+            const link = document.createElement('a');
+            link.download = `lovebond-logo-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function downloadAll() {
+            const canvases = document.querySelectorAll('canvas');
+            canvases.forEach((canvas, index) => {
+                setTimeout(() => {
+                    downloadLogo(canvas, sizes[index].size);
+                }, index * 500);
+            });
+        }
+
+        // Initialize
+        const grid = document.getElementById('logoGrid');
+        sizes.forEach(sizeInfo => {
+            grid.appendChild(createLogoItem(sizeInfo));
+        });
+    </script>
+</body>
+</html>
